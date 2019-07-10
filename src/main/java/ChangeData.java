@@ -24,6 +24,13 @@ public class ChangeData {
 //        String oaPath = "F:\\excel\\信息创新部员工考勤汇总表 - 6月.xls";
 //        String ddPath = "F:\\excel\\华润物业工程科技有限公司深圳分公司_考勤报表_20190601-20190630.xlsx";
 
+        //设立公共文件夹来存放生成文件
+//        String fileName = oaFile.getOriginalFilename();
+//        File file = new File("D:\\", fileName);
+//
+//        FileUtils.copyInputStreamToFile(oaFile.getInputStream(), file);
+//        String path = file.getPath();
+
         //定义输入流对象
         FileInputStream excelFileInputStream = new FileInputStream(ddPath);
 
@@ -84,24 +91,24 @@ public class ChangeData {
                     String status = list.get(row);
                     //status.replace("√", "");
                     if ("".equals(status)) {
-//                        writeCell(ddPath, workbook, sheet, coordinate, "休息");
+
                         map.put(coordinate, Constants.STATUS_REST);
                         //如果oa表中对应为空，那么此旷工无效，旷工天数减一
                         kgNumOfDays = kgNumOfDays - 1;
                     } else if ("√".equals(status)) {
-//                        writeCell(ddPath, workbook, sheet, coordinate, "正常");
+
                         map.put(coordinate, Constants.STARUS_NORMAL);
                         //如果oa表中对应为"√"，那么此旷工无效，天数减一
                         kgNumOfDays = kgNumOfDays - 1;
                     } else if (status.contains("√")) {
                         String newStatus = status.replace("√", "");
-//                        writeCell(ddPath, workbook, sheet, coordinate, "半天" + transformAttendance(newStatus));
+
                         map.put(coordinate, "半天" + transformAttendance(newStatus));
                         //如果oa表中对应为"√N"等，那么旷工天数减0.5，请假天数加0.5
                         kgNumOfDays = kgNumOfDays - 0.5;
                         qjNumOfDays = qjNumOfDays + 0.5;
                     } else if (!status.equals("K")) {
-//                        writeCell(ddPath, workbook, sheet, coordinate, transformAttendance(status));
+
                         map.put(coordinate, transformAttendance(status));
                         //如果oa表中对应为"N"等，那么旷工天数减1，请假天数加1
                         kgNumOfDays = kgNumOfDays - 1;
@@ -118,15 +125,14 @@ public class ChangeData {
                     String coordinate = transformColumn(j + 1) + String.valueOf(i + 1);
                     String status = list.get(row);
                     if ("√".equals(status)) {
-//                        writeCell(ddPath, workbook, sheet, coordinate, str + "\n" + "正常");
+
                         continue;
                     } else if (status.contains("√")) {
                         String newStatus = status.replace("√", "");
-//                        writeCell(ddPath, workbook, sheet, coordinate, str + "\n" + transformAttendance(newStatus) + "半天");
+
                         map.put(coordinate, str + "\n" + transformAttendance(newStatus) + "半天(OA)");
                         qjNumOfDays = qjNumOfDays + 0.5;
                     } else {
-//                        writeCell(ddPath, workbook, sheet, coordinate, str + "\n" + transformAttendance(status));
                         map.put(coordinate, str + "\n" + transformAttendance(status) + "(OA)");
                         qjNumOfDays = qjNumOfDays + 1;
                     }
@@ -156,9 +162,7 @@ public class ChangeData {
                     }
                 }
             }
-//            writeCell(ddPath, workbook, sheet, coordinateKG, String.valueOf(kgNumOfDays));
             map.put(coordinateKG, String.valueOf(kgNumOfDays));
-//            writeCell(ddPath, workbook, sheet, coordinateQJ, String.valueOf(qjNumOfDays));
             map.put(coordinateQJ, String.valueOf(qjNumOfDays));
         }
 
