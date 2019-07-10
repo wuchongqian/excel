@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellAddress;
 import utils.ImportExcel;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +25,18 @@ public class ChangeData {
 //        String oaPath = "F:\\excel\\信息创新部员工考勤汇总表 - 6月.xls";
 //        String ddPath = "F:\\excel\\华润物业工程科技有限公司深圳分公司_考勤报表_20190601-20190630.xlsx";
 
-        //设立公共文件夹来存放生成文件
-//        String fileName = oaFile.getOriginalFilename();
-//        File file = new File("D:\\", fileName);
-//
-//        FileUtils.copyInputStreamToFile(oaFile.getInputStream(), file);
-//        String path = file.getPath();
+        //获取当前系统的桌面路径（另一种方式）
+//        File desktopDir = FileSystemView.getFileSystemView() .getHomeDirectory();
+//        String desktopPath = desktopDir.getAbsolutePath();
+//        //设立公共文件夹来存放生成文件，这里是取用户桌面来存放
+//        String oaName = oaFile.getOriginalFilename();
+//        String ddName = ddFile.getOriginalFilename();
+//        File oa = new File(desktopPath, oaName);
+//        File dd = new File(desktopPath, ddName);
+//        FileUtils.copyInputStreamToFile(oaFile.getInputStream(), oa);
+//        FileUtils.copyInputStreamToFile(ddFile.getInputStream(), dd);
+//        String oaPath = oa.getPath();
+//        String ddPath = dd.getPath();
 
         //定义输入流对象
         FileInputStream excelFileInputStream = new FileInputStream(ddPath);
