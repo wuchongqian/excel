@@ -22,9 +22,6 @@ public class ChangeData {
     public Object changeExcel(String oaPath, String ddPath) throws Exception {
 //        logger.info("开始读取excel表，并修改钉钉excel表");
 
-//        String oaPath = "F:\\excel\\信息创新部员工考勤汇总表 - 6月.xls";
-//        String ddPath = "F:\\excel\\华润物业工程科技有限公司深圳分公司_考勤报表_20190601-20190630.xlsx";
-
         //获取当前系统的桌面路径（另一种方式）
 //        File desktopDir = FileSystemView.getFileSystemView() .getHomeDirectory();
 //        String desktopPath = desktopDir.getAbsolutePath();
