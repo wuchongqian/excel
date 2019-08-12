@@ -16,6 +16,7 @@ public class Constants {
     public final static String STATUS_REST = "休息";
     public final static String STATUS_FIELD = "外勤";
     public final static String CELL_STATUS_ALREADY_EDITED = "OA";
-
+    public final static String STARUS_LEAVY_EARLY = "下班早退";
+    public final static String STATUS_WORK_BE_LATE = "上班旷工迟到";
 
 }

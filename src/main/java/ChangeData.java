@@ -67,26 +67,20 @@ public class ChangeData {
             if (null == list || list.size() == 0) continue;
 
             //旷工天数及坐标
-            String coordinateKG = "Q" + String.valueOf(i + 1);
-            double kgNumOfDays = Double.valueOf(dList.get(16));
+            String coordinateKG = "N" + String.valueOf(i + 1);
+            double kgNumOfDays = Double.valueOf(dList.get(13));
 
             //请假天数及坐标
-            String coordinateQJ = "R" + String.valueOf(i + 1);
-            double qjNumOfDays;
-            String qjDays = dList.get(17);
-            if ("".equals(qjDays)) {
-                qjNumOfDays = 0f;
-            } else {
-                qjNumOfDays = Double.valueOf(qjDays);
-            }
+            String coordinateQJ = "F" + String.valueOf(i + 1);
+            double qjNumOfDays = 0f;
 
-            //从钉钉表第19列开始为每日考勤数据
-            for (int j = 19; j < dList.size(); j++) {
+            //从钉钉表第15列开始为每日考勤数据
+            for (int j = 15; j < dList.size(); j++) {
                 String str = dList.get(j);
                 //修改旷工字段
                 if (Constants.STATUS_COMPLETION.equals(str)) {
                     //获取对应日期对应列数
-                    int row = j - 18 + 6;
+                    int row = j - 14 + 6;
 
                     //取到需更改单元格坐标
                     String coordinate = transformColumn(j + 1) + String.valueOf(i + 1);
@@ -123,7 +117,7 @@ public class ChangeData {
                 //修改缺卡状态
                 } else if (str.contains(Constants.STATUS_NO_COLCK_IN) && !str.contains(Constants.CELL_STATUS_ALREADY_EDITED)) {
                     //获取对应日期对应列数
-                    int row = j - 18 + 6;
+                    int row = j - 14 + 6;
                     if (null == list || list.size() == 0) continue;
                     //取到需更改单元格坐标
                     String coordinate = transformColumn(j + 1) + String.valueOf(i + 1);
@@ -138,14 +132,18 @@ public class ChangeData {
                         qjNumOfDays = qjNumOfDays + 0.5;
                     } else {
                         map.put(coordinate, str + "\n" + transformAttendance(status) + "(OA)");
-                        qjNumOfDays = qjNumOfDays + 1;
+                        if (!"出差".equals(transformAttendance(status))) {
+                            qjNumOfDays = qjNumOfDays + 1;
+                        }
                     }
                 //修改外勤状态
                 } else if (str.contains(Constants.STATUS_FIELD) &&
                         !str.contains(Constants.CELL_STATUS_ALREADY_EDITED) &&
-                        !str.contains(Constants.STATUS_NO_COLCK_IN)) {
+                        !str.contains(Constants.STATUS_NO_COLCK_IN) &&
+                        !str.contains(Constants.STARUS_LEAVY_EARLY) &&
+                        !str.contains(Constants.STATUS_WORK_BE_LATE)) {
                     //获取对应日期对应列数
-                    int row = j - 18 + 6;
+                    int row = j - 14 + 6;
                     if (null == list || list.size() == 0) continue;
                     //取到需更改单元格坐标
                     String coordinate = transformColumn(j + 1) + String.valueOf(i + 1);
@@ -163,6 +161,19 @@ public class ChangeData {
                         if (!"出差".equals(transformAttendance(status))) {
                             qjNumOfDays = qjNumOfDays + 1;
                         }
+                    }
+                }else if (str.contains(Constants.STARUS_LEAVY_EARLY) || str.contains(Constants.STATUS_WORK_BE_LATE)){
+                    //获取对应日期对应列数
+                    int row = j - 14 + 6;
+                    //取到需更改单元格坐标
+                    String coordinate = transformColumn(j + 1) + String.valueOf(i + 1);
+                    String status = list.get(row);
+                    if ("√".equals(status)) {
+                        continue;
+                    } else if (status.contains("√")) {
+                        String newStatus = status.replace("√", "");
+                        map.put(coordinate, str + "\n" + transformAttendance(newStatus) + "半天(OA)");
+                        qjNumOfDays = qjNumOfDays + 0.5;
                     }
                 }
             }
